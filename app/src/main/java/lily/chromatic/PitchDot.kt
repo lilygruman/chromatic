@@ -7,6 +7,18 @@ import android.view.MotionEvent
 import kotlin.math.hypot
 
 class PitchDot(private val pitchClass: PitchClass, private val pitchCircle: PitchCircle) {
+    companion object {
+        private val intervalColors = intArrayOf(
+            Color.TRANSPARENT,
+            Color.YELLOW,
+            Color.MAGENTA,
+            Color.GREEN,
+            Color.CYAN,
+            Color.BLUE,
+            Color.RED
+        )
+
+    }
     private var center = pitchCircle.getDotCenter(pitchClass)
     private var radius: Float = pitchCircle.radius * 0.08f
     fun update() {
@@ -37,15 +49,13 @@ class PitchDot(private val pitchClass: PitchClass, private val pitchCircle: Pitc
         if (!pitchClass.on) return
         for (otherPitchClass in pitchClass.verticality.pitches) {
             if (!otherPitchClass.on) continue
-            val interval = normalize(
-                pitchIndex(otherPitchClass.name) - pitchIndex(pitchClass.name)
-            )
+            val interval = otherPitchClass - pitchClass
             if ((interval < 1) or (interval > intervalColors.lastIndex)) continue
             val paint = Paint().apply {
                 color = intervalColors[interval]
                 strokeWidth = radius * 0.1f
             }
-            val otherPitchDot = pitchCircle.dots[pitchIndex((otherPitchClass.name))]
+            val otherPitchDot = pitchCircle.dots[PitchClass.indexOf((otherPitchClass.name))]
             canvas.drawLine(
                 center.x,
                 center.y,

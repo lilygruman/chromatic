@@ -8,7 +8,7 @@ import kotlin.math.*
 
 class PitchCircle(
     private val verticality: Verticality,
-    private val interval: Int = fifthInterval
+    private val interval: Int = 7
 ) {
     private var center = CartesianVector(0f, 0f)
         set(value) {
@@ -20,11 +20,11 @@ class PitchCircle(
             field = value
             for (dot in dots) dot.update()
         }
-    val dots = Array(pitchNames.length) {
+    val dots = Array(PitchClass.names.length) {
             i -> PitchDot(verticality.pitches[i], this)
     }
     private var dragStartAngle: Float? = null
-    private val pitchDotOffsetAngle: Float = 2f * PI.toFloat() / pitchNames.length.toFloat()
+    private val pitchDotOffsetAngle: Float = 2f * PI.toFloat() / PitchClass.names.length.toFloat()
     fun update(canvasWidth: Int, canvasHeight: Int) {
         center = CartesianVector((canvasWidth / 2).toFloat(), (canvasHeight / 2).toFloat())
         radius = min(center.x, center.y) * 0.9f
@@ -39,7 +39,7 @@ class PitchCircle(
         for (dot in dots) dot.draw(canvas)
     }
     fun getDotCenter(pitchClass: PitchClass): CartesianVector {
-        val angle: Float = (pitchIndex(pitchClass.name) * interval).toFloat() * pitchDotOffsetAngle
+        val angle: Float = (PitchClass.indexOf(pitchClass.name) * interval).toFloat() * pitchDotOffsetAngle
         return CartesianVector(
             center.x + (radius * cos(angle)),
             center.y + (radius * sin(angle))
@@ -68,6 +68,6 @@ class PitchCircle(
         }
     }
     private fun rotate(n: Int) {
-        verticality.transpose(interval * n)
+        verticality += interval * n
     }
 }

@@ -3,7 +3,6 @@ package lily.chromatic
 import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioTrack
-import kotlin.concurrent.thread
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -17,7 +16,7 @@ class PitchOscillator(frequency: Float) {
         audioTrack.write(buffer, 0, bufferSize, AudioTrack.WRITE_BLOCKING)
         audioTrack.setLoopPoints(0, bufferSize, -1)
 
-        audioTrack.setVolume(1f / pitchNames.length.toFloat())
+        audioTrack.setVolume(1f / PitchClass.names.length.toFloat())
     }
     fun play() {
         audioTrack.play()

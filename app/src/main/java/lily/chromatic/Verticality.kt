@@ -1,8 +1,8 @@
 package lily.chromatic
 
 class Verticality {
-    var pitches = Array(pitchNames.length) {
-            i -> PitchClass(pitchName(i), this)
+    var pitches = Array(PitchClass.names.length) {
+            i -> PitchClass(PitchClass.get(i), this)
     }
     var playing: Boolean = false
         set(value) {
@@ -26,12 +26,12 @@ class Verticality {
         for (pitch in pitches) if (pitch.on) verticality.add(pitch.name)
         return verticality
     }
-    private fun getPitch(name: Char) = pitches[pitchIndex(name)].on
+    private fun getPitch(name: Char) = pitches[PitchClass.indexOf(name)].on
     private fun setPitch(name: Char, value: Boolean) {
-        pitches[pitchIndex(name)].on = value
+        pitches[PitchClass.indexOf(name)].on = value
     }
     fun togglePitch(name: Char) {
-        pitches[pitchIndex(name)].toggle()
+        pitches[PitchClass.indexOf(name)].toggle()
     }
     fun togglePlay() {
         playing = !playing
@@ -41,9 +41,9 @@ class Verticality {
         clear()
         for (pitch in pitches) if (verticality.contains(pitch.name)) mapping(pitch).on = true
     }
-    fun transpose(n: Int) {
+    operator fun plusAssign(n: Int) {
         transform {
-            pitch: PitchClass -> pitch.transpose(n)
+                pitch: PitchClass -> pitch + n
         }
     }
 }

@@ -2,8 +2,7 @@ package lily.chromatic
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Switch
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,13 +10,13 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.clearButton).setOnClickListener {
-            val circleOfFifths = findViewById<PitchCircleView>(R.id.circleOfFifths)
+        clearButton.setOnClickListener {
             circleOfFifths.verticality.clear()
             circleOfFifths.invalidate()
         }
-        findViewById<Switch>(R.id.playSwitch).setOnCheckedChangeListener { _, isChecked ->
-            findViewById<PitchCircleView>(R.id.circleOfFifths).verticality.playing = isChecked
+
+        playSwitch.setOnCheckedChangeListener { _, isChecked ->
+            circleOfFifths.verticality.playing = isChecked
         }
     }
 }
