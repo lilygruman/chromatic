@@ -9,11 +9,6 @@ class Verticality {
             field = value
             for (pitch in pitches) if (value) pitch.play() else pitch.stop()
         }
-    fun size(): Int {
-        var count = 0
-        for (pitch in pitches) if (pitch.on) count++
-        return count
-    }
     fun clear() {
         for (pitch in pitches) pitch.on = false
     }
@@ -22,19 +17,9 @@ class Verticality {
         for (pitch in pitches) if (pitch.name in verticality) pitch.on = true
     }
     fun get(): ArrayList<Char> {
-        val verticality = ArrayList<Char>()
-        for (pitch in pitches) if (pitch.on) verticality.add(pitch.name)
-        return verticality
-    }
-    private fun getPitch(name: Char) = pitches[PitchClass.indexOf(name)].on
-    private fun setPitch(name: Char, value: Boolean) {
-        pitches[PitchClass.indexOf(name)].on = value
-    }
-    fun togglePitch(name: Char) {
-        pitches[PitchClass.indexOf(name)].toggle()
-    }
-    fun togglePlay() {
-        playing = !playing
+        return ArrayList<Char>().apply {
+            for (pitch in pitches) if (pitch.on) add(pitch.name)
+        }
     }
     private fun transform(mapping: (PitchClass) -> PitchClass) {
         val verticality = get()

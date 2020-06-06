@@ -15,8 +15,6 @@ class PitchOscillator(frequency: Float) {
         }
         audioTrack.write(buffer, 0, bufferSize, AudioTrack.WRITE_BLOCKING)
         audioTrack.setLoopPoints(0, bufferSize, -1)
-
-        audioTrack.setVolume(1f / PitchClass.names.length.toFloat())
     }
     fun play() {
         audioTrack.play()
@@ -37,6 +35,8 @@ class PitchOscillator(frequency: Float) {
             .setAudioFormat(format)
             .setTransferMode(AudioTrack.MODE_STATIC)
             .setBufferSizeInBytes(48000 * 8)   // TODO: Switch to format.frameSizeInBytes
-            .build()
+            .build().apply {
+                setVolume(1f / PitchClass.names.length.toFloat())
+            }
     }
 }
